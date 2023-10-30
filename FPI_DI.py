@@ -1,4 +1,5 @@
 import os
+import sys
 import pandas as pd
 import pyautogui
 import time
@@ -9,7 +10,13 @@ os.chdir(r'M:\Investments\Automation\Python\Dealing Instructions')
 def fpi_di(number, name, amount, sedol, asset, ccy):
     """Completes Friends Provident International dealing form."""
 
-    os.startfile('FPI Dealing Instruction.pdf')
+    try:
+        os.startfile('FPI Dealing Instruction.pdf')
+    except FileNotFoundError:
+        print("\nThe process failed. Please ensure the FPI dealing template is in the folder before running the "
+              "program again.")
+        sys.exit()
+
     time.sleep(10)
 
     for i in range(7):
@@ -43,7 +50,12 @@ def fpi_di(number, name, amount, sedol, asset, ccy):
     pyautogui.press('enter')
 
 
-sales = pd.read_excel("Sales.xlsx")
+try:
+    sales = pd.read_excel("Sales.xlsx")
+except FileNotFoundError:
+    print("\nThe process failed. Please ensure the Sales file is in the folder before running the program again.")
+    sys.exit()
+
 sales["Value"] = sales["Value"].astype(str).copy()
 sales["Policy Number"] = sales["Policy Number"].astype(str).copy()
 

@@ -1,4 +1,5 @@
 import os
+import sys
 import pandas as pd
 import pyautogui
 import time
@@ -9,7 +10,13 @@ os.chdir(r'M:\Investments\Automation\Python\Dealing Instructions')
 def rl360_di(number, name, amount, sedol, asset, ccy):
     """Completes RL360 dealing form."""
 
-    os.startfile('RL360 Blank Dealing.pdf')
+    try:
+        os.startfile('RL360 Blank Dealing.pdf')
+    except FileNotFoundError:
+        print("\nThe process failed. Please ensure the RL360 dealing template is in the folder before running the "
+              "program again.")
+        sys.exit()
+
     time.sleep(10)
 
     for i in range(2):
@@ -41,7 +48,12 @@ def rl360_di(number, name, amount, sedol, asset, ccy):
     pyautogui.press('enter')
 
 
-sales = pd.read_excel("Sales.xlsx")
+try:
+    sales = pd.read_excel("Sales.xlsx")
+except FileNotFoundError:
+    print("\nThe process failed. Please ensure the Sales file is in the folder before running the program again.")
+    sys.exit()
+
 sales["Value"] = sales["Value"].astype(str).copy()  # ensuring correct datatypes
 sales["Policy Number"] = sales["Policy Number"].astype(str).copy()
 
