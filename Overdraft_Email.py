@@ -35,4 +35,4 @@ for adviser_firm in advisers:
     index = mail.HTMLbody.find('>', mail.HTMLbody.find('<body'))
     mail.HTMLbody = mail.HTMLbody[:index + 1] + message + mail.HTMLbody[index + 1:]
     mail.Display()
-    # mail.Send()
+    mail.Send()
